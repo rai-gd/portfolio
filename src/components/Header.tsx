@@ -1,18 +1,18 @@
-import { Command, Menu, X } from "lucide-react";
+import { Download, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FocusToggle } from "@/components/FocusToggle";
 import { Button } from "@/components/ui/button";
 import { navItems } from "@/data/navigation";
+import { owner } from "@/data/portfolio";
 import { cn } from "@/lib/utils";
 import type { FocusMode } from "@/types";
 
 type HeaderProps = {
-  onOpenCommand: () => void;
   mode: FocusMode;
   onModeChange: (mode: FocusMode) => void;
 };
 
-export function Header({ onOpenCommand, mode, onModeChange }: HeaderProps) {
+export function Header({ mode, onModeChange }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -53,9 +53,11 @@ export function Header({ onOpenCommand, mode, onModeChange }: HeaderProps) {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={onOpenCommand} className="hidden sm:inline-flex">
-            <Command className="h-4 w-4" />
-            Navigate
+          <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
+            <a href={owner.resumeUrl} target="_blank" rel="noreferrer">
+              <Download className="h-4 w-4" />
+              Resume
+            </a>
           </Button>
           <Button
             variant="ghost"
@@ -90,9 +92,11 @@ export function Header({ onOpenCommand, mode, onModeChange }: HeaderProps) {
               {item.label}
             </a>
           ))}
-          <Button variant="outline" className="mb-3 mt-1 w-full" onClick={onOpenCommand}>
-            <Command className="h-4 w-4" />
-            Command Navigation
+          <Button asChild variant="outline" className="mb-3 mt-1 w-full">
+            <a href={owner.resumeUrl} target="_blank" rel="noreferrer">
+              <Download className="h-4 w-4" />
+              Resume
+            </a>
           </Button>
         </nav>
       </div>

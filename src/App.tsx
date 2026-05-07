@@ -17,7 +17,7 @@ export default function App() {
 
   return (
     <div data-focus={mode} className="focus-stage min-h-screen overflow-x-hidden bg-background text-foreground">
-      <Header onOpenCommand={() => setCommandOpen(true)} mode={mode} onModeChange={setMode} />
+      <Header mode={mode} onModeChange={setMode} />
       <main>
         <Hero mode={mode} onModeChange={setMode} />
         <About />

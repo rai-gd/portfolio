@@ -23,15 +23,17 @@ export function Hero({ mode, onModeChange }: HeroProps) {
 
       <div className="container grid min-h-[calc(100vh-7rem)] items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="pb-16">
-          <FocusToggle mode={mode} onChange={onModeChange} />
-          <motion.p
-            key={focusCopy[mode].eyebrow}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="hud-label mt-8"
-          >
-            {focusCopy[mode].eyebrow}
-          </motion.p>
+          <div className="flex flex-col items-start gap-6">
+            <FocusToggle mode={mode} onChange={onModeChange} />
+            <motion.p
+              key={focusCopy[mode].eyebrow}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="hud-label"
+            >
+              {focusCopy[mode].eyebrow}
+            </motion.p>
+          </div>
           <h1 className="mt-5 max-w-4xl text-4xl font-bold tracking-normal text-foreground sm:text-6xl lg:text-7xl">
             {owner.name}
           </h1>

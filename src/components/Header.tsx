@@ -1,19 +1,37 @@
 import { Command, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { FocusToggle } from "@/components/FocusToggle";
 import { Button } from "@/components/ui/button";
 import { navItems } from "@/data/navigation";
 import { cn } from "@/lib/utils";
+import type { FocusMode } from "@/types";
 
 type HeaderProps = {
   onOpenCommand: () => void;
+  mode: FocusMode;
+  onModeChange: (mode: FocusMode) => void;
 };
 
-export function Header({ onOpenCommand }: HeaderProps) {
+export function Header({ onOpenCommand, mode, onModeChange }: HeaderProps) {
   const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const updateVisibility = () => setVisible(window.scrollY > 160);
+
+    updateVisibility();
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+    return () => window.removeEventListener("scroll", updateVisibility);
+  }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 border-b border-primary/20 bg-background/80 backdrop-blur-xl">
-      <div className="container flex h-16 items-center justify-between">
+    <header
+      className={cn(
+        "fixed inset-x-0 top-4 z-40 px-3 transition-all duration-300",
+        visible ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0 pointer-events-none",
+      )}
+    >
+      <div className="glass-panel mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-3 px-4 py-2">
         <a href="#hero" className="focus-ring rounded-md font-mono text-sm font-semibold text-foreground">
           QA<span className="text-primary">.</span>ENGINEERING
         </a>
@@ -29,6 +47,10 @@ export function Header({ onOpenCommand }: HeaderProps) {
             </a>
           ))}
         </nav>
+
+        <div className="hidden lg:block">
+          <FocusToggle mode={mode} onChange={onModeChange} />
+        </div>
 
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={onOpenCommand} className="hidden sm:inline-flex">
@@ -50,11 +72,14 @@ export function Header({ onOpenCommand }: HeaderProps) {
 
       <div
         className={cn(
-          "grid border-t border-white/10 bg-background/95 transition-[grid-template-rows] md:hidden",
+          "mx-auto grid max-w-6xl border-t border-white/10 bg-background/95 transition-[grid-template-rows] md:hidden",
           open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
         <nav className="container overflow-hidden py-2" aria-label="Mobile navigation">
+          <div className="mb-3">
+            <FocusToggle mode={mode} onChange={onModeChange} />
+          </div>
           {navItems.map((item) => (
             <a
               key={item.href}

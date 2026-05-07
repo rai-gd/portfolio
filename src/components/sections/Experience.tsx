@@ -1,9 +1,19 @@
 import { CheckCircle2 } from "lucide-react";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { experiences } from "@/data/portfolio";
 
 export function Experience() {
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 70%", "end 70%"],
+  });
+  const lineScale = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.2 });
+  const lineOpacity = useTransform(scrollYProgress, [0, 0.08], [0.2, 1]);
+
   return (
     <section id="experience" className="section-pad">
       <div className="container">
@@ -12,11 +22,22 @@ export function Experience() {
           title="Engineering timeline"
           description="Replace these placeholders with concise, outcome-oriented experience entries."
         />
-        <div className="mx-auto max-w-4xl">
+        <div ref={timelineRef} className="relative mx-auto max-w-4xl space-y-8">
+          <div className="absolute bottom-0 left-0 top-0 w-px bg-primary/15" aria-hidden="true" />
+          <motion.div
+            className="absolute left-0 top-0 w-px origin-top bg-gradient-to-b from-primary via-accent to-primary shadow-[0_0_22px_hsl(var(--primary)/0.45)]"
+            style={{ height: "100%", scaleY: lineScale, opacity: lineOpacity }}
+            aria-hidden="true"
+          />
           {experiences.map((item, index) => (
             <Reveal key={`${item.company}-${item.period}`} delay={index * 0.08}>
-              <article className="relative border-l border-primary/20 pb-10 pl-7 last:pb-0">
-                <span className="absolute -left-[7px] top-1 h-3.5 w-3.5 rotate-45 border-2 border-background bg-primary" />
+              <article className="relative pl-8">
+                <span
+                  className="absolute -left-[11px] top-1/2 flex h-5 w-5 -translate-y-1/2 rotate-45 items-center justify-center border border-primary bg-background shadow-[0_0_22px_hsl(var(--primary)/0.32)]"
+                  aria-hidden="true"
+                >
+                  <span className="h-2 w-2 bg-primary" />
+                </span>
                 <div className="glass-panel p-6">
                   <p className="font-mono text-xs font-semibold uppercase text-primary">{item.period}</p>
                   <h3 className="mt-2 text-xl font-semibold">{item.role}</h3>

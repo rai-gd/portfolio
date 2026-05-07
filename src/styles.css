@@ -1,0 +1,154 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 225 33% 5%;
+    --foreground: 210 24% 94%;
+    --card: 224 29% 8%;
+    --card-foreground: 210 24% 94%;
+    --primary: 174 82% 52%;
+    --primary-foreground: 225 33% 5%;
+    --secondary: 222 18% 14%;
+    --secondary-foreground: 210 24% 94%;
+    --muted: 222 16% 16%;
+    --muted-foreground: 217 12% 68%;
+    --accent: 268 84% 67%;
+    --accent-foreground: 210 24% 94%;
+    --border: 220 17% 21%;
+    --input: 220 17% 21%;
+    --ring: 174 82% 52%;
+    --focus-rgb-a: 45 212 191;
+    --focus-rgb-b: 16 185 129;
+  }
+
+  [data-focus="qa"] {
+    --primary: 174 82% 52%;
+    --accent: 151 83% 57%;
+    --ring: 174 82% 52%;
+    --focus-rgb-a: 45 212 191;
+    --focus-rgb-b: 16 185 129;
+  }
+
+  [data-focus="dev"] {
+    --primary: 268 84% 67%;
+    --accent: 190 95% 62%;
+    --ring: 268 84% 67%;
+    --focus-rgb-a: 167 139 250;
+    --focus-rgb-b: 34 211 238;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-foreground;
+  }
+}
+
+@layer components {
+  .focus-stage {
+    background-image:
+      radial-gradient(circle at 18% 22%, rgb(var(--focus-rgb-a) / 0.115), transparent 32rem),
+      radial-gradient(circle at 88% 12%, rgb(var(--focus-rgb-b) / 0.095), transparent 30rem),
+      linear-gradient(180deg, rgb(var(--focus-rgb-a) / 0.045), transparent 28rem),
+      linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.03) 1px, transparent 1px);
+    background-size: auto, auto, auto, 72px 72px, 72px 72px;
+    transition: background-image 300ms ease;
+  }
+
+  .glass-panel {
+    @apply relative border border-white/10 bg-white/[0.045] shadow-glow backdrop-blur-xl;
+    background-image:
+      linear-gradient(135deg, rgb(var(--focus-rgb-a) / 0.12), transparent 26%),
+      linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.02));
+    clip-path: polygon(0 14px, 14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+  }
+
+  .glass-panel::before {
+    content: "";
+    @apply pointer-events-none absolute inset-0;
+    background:
+      linear-gradient(to right, hsl(var(--primary)) 2px, transparent 2px) 0 0 / 24px 2px no-repeat,
+      linear-gradient(to bottom, hsl(var(--primary)) 2px, transparent 2px) 0 0 / 2px 24px no-repeat,
+      linear-gradient(to left, hsl(var(--primary)) 2px, transparent 2px) 100% 100% / 24px 2px no-repeat,
+      linear-gradient(to top, hsl(var(--primary)) 2px, transparent 2px) 100% 100% / 2px 24px no-repeat;
+    opacity: 0.48;
+  }
+
+  .hud-scan {
+    @apply relative overflow-hidden;
+  }
+
+  .hud-scan::after {
+    content: "";
+    @apply pointer-events-none absolute inset-0;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgb(255 255 255 / 0.035) 0,
+      rgb(255 255 255 / 0.035) 1px,
+      transparent 1px,
+      transparent 7px
+    );
+    mix-blend-mode: screen;
+    opacity: 0.2;
+  }
+
+  .hud-label {
+    @apply inline-flex items-center border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-[0.68rem] font-semibold uppercase text-primary;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  .hud-divider {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent;
+  }
+
+  .hud-reticle {
+    @apply pointer-events-none absolute rounded-full border border-primary/30;
+    background:
+      linear-gradient(to right, transparent calc(50% - 1px), hsl(var(--primary) / 0.35) calc(50% - 1px), hsl(var(--primary) / 0.35) calc(50% + 1px), transparent calc(50% + 1px)),
+      linear-gradient(to bottom, transparent calc(50% - 1px), hsl(var(--primary) / 0.35) calc(50% - 1px), hsl(var(--primary) / 0.35) calc(50% + 1px), transparent calc(50% + 1px));
+  }
+
+  .game-button {
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .hud-cut-sm {
+    clip-path: polygon(0 10px, 10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  }
+
+  .section-pad {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}

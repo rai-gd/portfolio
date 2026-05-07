@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="QA portfolio favicon">
+  <rect width="64" height="64" rx="12" fill="#05070d"/>
+  <path d="M17 34.5 27 44l20-24" fill="none" stroke="#2dd4bf" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M14 14h36v36H14z" fill="none" stroke="#8b5cf6" stroke-width="3" opacity=".75"/>
+</svg>
